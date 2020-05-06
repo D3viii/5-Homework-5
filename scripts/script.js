@@ -1,6 +1,14 @@
-var timeBlock = document.getElementsByClassName(".text-block")
+$(document).ready(function() {
+    var calendarArray = [" "]
 
-timeBlock.textContent = ["1", "2", "3", "4", "5"]
+    $("#currentDay").text(moment().format("MMMM Do YYYY"))
 
-var textArea = document.getElementsByName("textarea")
-textArea.textContent = "hello world"
+    function init() {
+        if(localStorage.getItem("calenderArray") !== null) {
+            calendarArray = JSON.parse(localStorage.getItem("calenderArray"))
+        } else {
+            localStorage.setItem("calendarArray", JSON.stringify(calendarArray))
+        }
+        
+    }
+})
