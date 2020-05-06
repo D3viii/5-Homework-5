@@ -1,13 +1,13 @@
 $(document).ready(function () {
-  var calendarArray = [" ", " ", " "];
+  var calenderArray = [];
 
   $("#currentDay").text(moment().format("MMMM Do YYYY"));
 
   function init() {
     if (localStorage.getItem("calenderArray") !== null) {
-      calendarArray = JSON.parse(localStorage.getItem("calenderArray"));
+      calenderArray = JSON.parse(localStorage.getItem("calenderArray"));
     } else {
-      localStorage.setItem("calendarArray", JSON.stringify(calendarArray));
+      localStorage.setItem("calenderArray", JSON.stringify(calenderArray));
     }
     calenderRender();
   }
@@ -18,9 +18,9 @@ $(document).ready(function () {
     for (var i = 9; i < 18; i++) {
       var timeTXT;
       if (i === 9) {
-        timeTXT = moment("2013-05-06 0" + i).format("LT");
+        timeTXT = moment("2020-06-05 0" + i).format("LT");
       } else {
-        timeTXT = moment("2013-05-06" + i).format("LT");
+        timeTXT = moment("2020-06-05 " + i).format("LT");
       }
       var timeBLK = $("<div>");
       timeBLK.addClass("row time-block");
@@ -29,10 +29,10 @@ $(document).ready(function () {
       hourEl.text(timeTXT);
       var textArea = $("<textarea>");
       textArea.addClass("col-10");
-      textArea.val(calendarArray[i - 9]);
+      textArea.val(calenderArray[i - 9]);
       if (moment().hour() > i) {
         textArea.addClass("past");
-      } else if (moment().hour() == i) {
+      } else if (moment().hour() === i) {
         textArea.addClass("present");
       } else {
         textArea.addClass("future");
@@ -46,4 +46,14 @@ $(document).ready(function () {
       timeBLK.append(saveBTN);
     }
   }
+
+  function save(event) {
+    calenderArray[parseInt($(this).attr("data-time")) - 9] = $(this)
+      .prev()
+      .val();
+    localStorage.setItem("calenderArray", JSON.stringify(calenderArray));
+  }
+
+  $("#calendar").on("click", ".saveBtn", save);
+
 });
